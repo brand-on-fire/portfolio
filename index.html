@@ -117,7 +117,7 @@ function render(){
  var g=0,y=0,r=0,ranks={};
  document.querySelectorAll('.card').forEach(function(card){
   var s=card.dataset.slug,list=by[s]||[],n=list.length,icon='❌',cls='r',rank=2;
-  var doneWord=list.some(function(c){return /(fully done|all done|looks good|perfect|approved|no changes?|good to go)/i.test(c.text)});
+  var doneWord=list.some(function(c){return /(fully done|all done|looks good|perfect|approved|no changes|good to go|all good|nice work)/i.test(c.text)});
   if(HANDLED[s]==='review'){icon='✅🟡';cls='g';rank=0}
   else if(HANDLED[s]==='done'||doneWord){icon='✅';cls='g';rank=3}
   else if(HANDLED[s]==='working'){icon='🟡';cls='y';rank=1}
