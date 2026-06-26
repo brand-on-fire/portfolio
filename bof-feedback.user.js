@@ -1,10 +1,8 @@
 // ==UserScript==
-// @name         BoF Portfolio Feedback
-// @namespace    brandonfire
-// @version      1.3
-// @match        https://brand-on-fire.github.io/*
-// @run-at       document-idle
-// @grant        none
+// @name BoF Portfolio Feedback
+// @match https://brand-on-fire.github.io/*
+// @run-at document-idle
+// @grant none
 // ==/UserScript==
 /* Brand on Fire portfolio feedback collector. One shared origin (brand-on-fire.github.io) => one shared
    localStorage; every comment is stamped with the site + page it was written on. Shadow DOM so the host
@@ -16,8 +14,9 @@
   function SV(a) { try { localStorage.setItem(K, JSON.stringify(a)); } catch (e) {} }
   function slug() { var p = location.pathname.split('/').filter(Boolean); return p[0] || '(home)'; }
   function pagePath() { var p = location.pathname.split('/').filter(Boolean); return '/' + p.slice(1).join('/') + (p.length > 1 ? '/' : ''); }
-  function draftKey() { return 'bof_fb_draft:' + location.pathname; }     // per-page draft, no bleed between sites
+  function draftKey() { return 'bof_fb_draft'; }     // one global draft so an in-progress comment survives navigation
   function barH() { var b = D.getElementById('bof-portfolio-bar'); return b ? b.offsetHeight : 0; }
+  function sync() { try { fetch('http://localhost:8799/sync', { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(L()), keepalive: true }).catch(function () {}); } catch (e) {} }
   function counts() { var a = L(), s = slug(), here = a.filter(function (c) { return c.site === s; }).length; return { here: here, total: a.length }; }
   var open = localStorage.getItem('bof_fb_open') === '1';
 
@@ -63,11 +62,11 @@
   R.getElementById('save').addEventListener('click', function () {
     var t = ta.value.trim(); if (!t) return;
     var a = L(); a.push({ site: slug(), page: location.pathname, text: t, ts: new Date().toISOString() }); SV(a);
-    ta.value = ''; localStorage.removeItem(draftKey()); refresh();
+    ta.value = ''; localStorage.removeItem(draftKey()); refresh(); sync();
     var b = R.getElementById('save'); b.textContent = 'Saved ✓ ' + slug(); setTimeout(function () { b.textContent = 'Save'; }, 1100);
   });
   R.getElementById('undo').addEventListener('click', function () {
-    var a = L(); if (!a.length) return; var last = a.pop(); SV(a); refresh();
+    var a = L(); if (!a.length) return; var last = a.pop(); SV(a); refresh(); sync();
     var b = R.getElementById('undo'); b.textContent = 'removed'; setTimeout(function () { b.textContent = 'Undo last'; }, 900);
   });
   R.getElementById('exp').addEventListener('click', function () {
@@ -77,5 +76,5 @@
     else window.prompt('Copy all (Cmd+C):', txt);
   });
   window.addEventListener('resize', refresh);
-  if (D.readyState !== 'loading') refresh(); else D.addEventListener('DOMContentLoaded', refresh);
+  if (D.readyState !== 'loading') { refresh(); sync(); } else D.addEventListener('DOMContentLoaded', function () { refresh(); sync(); });
 })();
