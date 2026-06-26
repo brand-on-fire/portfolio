@@ -110,7 +110,7 @@ footer{color:#6b7280;font-size:13px;margin-top:34px;text-align:center}</style></
 
 </div><footer>© Brand on Fire LLC · archived portfolio</footer></div>
 <script>
-var HANDLED={};  // {slug:'done'|'review'|'working'} — Claude updates as comments are handled
+var HANDLED={"astrotarot-readings": "done", "blocked-in-china-plugin": "done", "bloomtown": "done", "blue-ocean-consulting-llc": "done", "china-plugins": "done", "cognitive-cart": "done", "global-friendship": "done", "goodtime-kohmak": "done", "grounding-expanding": "done", "gyta-buyback": "done", "medical-practices-usa": "done", "miconi": "done", "payment-page-plugin": "done", "nova-vantage": "working", "benergy-usa": "working", "aim-jerry": "working", "american-western-awards": "working", "bravo-building-co": "working", "cafe-dodici": "working", "china-payments-plugin": "working", "chocolibrium": "working", "chosen-leaders-50": "working", "domain-mapping-system": "working", "dr-john-selle": "working", "e2-lighting-usa": "working", "ellen-kvam": "working", "emery-cove": "working", "fogg-construction": "working", "gary-marsh-design": "working", "gary-marsh-sculptor": "working", "gaucho-plugins": "working", "halloween-pro-haunt": "working", "jaq-the-voice": "working", "kohmak-animal-clinic": "working", "luxury-group": "working", "marilyn-ray": "working", "md-ltd": "working", "mutianyu-wall-tour": "working", "on-the-road-with-donna": "working", "one-stop-plastering": "working", "panama-pacific": "working", "partners-in-painting": "working", "persburo-melissen": "working", "point-lobos-rentals": "working"};  // {slug:'done'|'review'|'working'} — Claude updates as comments are handled
 function comments(){try{return JSON.parse(localStorage.getItem('bof_feedback'))||[]}catch(e){return[]}}
 function render(){
  var a=comments(),by={};a.forEach(function(c){(by[c.site]=by[c.site]||[]).push(c)});
@@ -124,7 +124,7 @@ function render(){
   else if(n>0){icon='🟡';cls='y';rank=1}
   else{icon='❌';cls='r';rank=2}
   document.getElementById('st-'+s).textContent=icon;
-  document.getElementById('cn-'+s).textContent=n?(n+' comment'+(n>1?'s':'')):'';
+  document.getElementById('cn-'+s).textContent='';
   ranks[s]=rank; if(cls==='g')g++;else if(cls==='y')y++;else r++;
  });
  var grid=document.querySelector('.grid'),cards=[].slice.call(grid.querySelectorAll('.card'));
