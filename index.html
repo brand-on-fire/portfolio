@@ -118,11 +118,12 @@ function render(){
  document.querySelectorAll('.card').forEach(function(card){
   var s=card.dataset.slug,list=by[s]||[],n=list.length,icon='❌',cls='r',rank=2;
   var doneWord=list.some(function(c){return /(fully done|all done|looks good|perfect|approved|no changes|good to go|all good|nice work)/i.test(c.text)});
-  if(HANDLED[s]==='review'){icon='✅🟡';cls='g';rank=0}
-  else if(HANDLED[s]==='done'||doneWord){icon='✅';cls='g';rank=3}
-  else if(HANDLED[s]==='working'){icon='🟡';cls='y';rank=1}
-  else if(n>0){icon='🟡';cls='y';rank=1}
-  else{icon='❌';cls='r';rank=2}
+  if(HANDLED[s]==='done'){icon='✅';cls='g';rank=0}
+  else if(HANDLED[s]==='review'){icon='✅🟡';cls='g';rank=1}
+  else if(HANDLED[s]==='working'){icon='🟡';cls='y';rank=2}
+  else if(doneWord){icon='✅';cls='g';rank=0}
+  else if(n>0){icon='🟡';cls='y';rank=2}
+  else{icon='❌';cls='r';rank=3}
   document.getElementById('st-'+s).textContent=icon;
   document.getElementById('cn-'+s).textContent='';
   ranks[s]=rank; if(cls==='g')g++;else if(cls==='y')y++;else r++;
