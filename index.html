@@ -130,7 +130,7 @@ function render(){
  var grid=document.querySelector('.grid'),cards=[].slice.call(grid.querySelectorAll('.card'));
  cards.sort(function(a,b){var ra=ranks[a.dataset.slug],rb=ranks[b.dataset.slug];if(ra!==rb)return ra-rb;
    var na=a.querySelector('.name').textContent.toLowerCase(),nb=b.querySelector('.name').textContent.toLowerCase();return na<nb?-1:na>nb?1:0});
- cards.forEach(function(c){grid.appendChild(c)});
+ cards.forEach(function(c){grid.appendChild(c);c.href=c.dataset.url+'?cb='+Date.now()});
  document.getElementById('summary').innerHTML='<span class="k">📋 <b>'+cards.length+'</b> total</span><span class="k">✅ <b>'+g+'</b> done/review</span><span class="k">🟡 <b>'+y+'</b> in progress</span><span class="k">❌ <b>'+r+'</b> not reviewed</span><span class="k">❌❌❌ <b>'+x+'</b> not built</span>';
 }
 function checkLive(){
@@ -141,6 +141,6 @@ function checkLive(){
   })(cards[i++].dataset.slug);}
  } step();
 }
-function openAll(){var c=[].slice.call(document.querySelectorAll('.card')).filter(function(a){return !NOTLIVE[a.dataset.slug]});if(c.length>12&&!confirm('Open '+c.length+' live tabs?'))return;c.forEach(function(a){window.open(a.dataset.url,'_blank','noopener')})}
+function openAll(){var c=[].slice.call(document.querySelectorAll('.card')).filter(function(a){return !NOTLIVE[a.dataset.slug]});if(c.length>12&&!confirm('Open '+c.length+' live tabs?'))return;c.forEach(function(a){window.open(a.dataset.url+'?cb='+Date.now(),'_blank','noopener')})}
 render();checkLive();window.addEventListener('focus',render);setInterval(render,5000);
 </script></body></html>
